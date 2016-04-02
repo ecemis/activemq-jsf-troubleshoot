@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>                                                                                                                                                                                                                                                                
+<resources>
+    <Resource id="MyJmsResourceAdapter" type="ActiveMQResourceAdapter">
+        # Start the embedded ActiveMQ broker.  This Broker runs inside TomEE and is bound to the address localhost:61616.
+        # This broker will start when TomEE starts and shutdown when TomEE shuts down. All JMS communication happening inside
+        # TomEE itself will happen using the embedded ActiveMQ Broker over the ActiveMQ "vm" transport which is optimized
+        # for sending and receiving messages when in the same JVM as the Broker.
+
+        BrokerXmlConfig =  broker:(tcp://localhost:61616)?useJmx=false
+        ServerUrl       =  vm://localhost?waitForStart=20000&amp;async=true
+    </Resource>
+
+    <Resource id="MyJmsConnectionFactory" type="javax.jms.ConnectionFactory">
+        ResourceAdapter = MyJmsResourceAdapter
+    </Resource>
+
+    <Container id="MyJmsMdbContainer" ctype="MESSAGE">
+        ResourceAdapter = MyJmsResourceAdapter
+    </Container>
+</resources>
+
