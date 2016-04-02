@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+
+  <display-name>Servlet 3.0 Web Application</display-name>
+
+  <security-constraint>
+        <display-name>Public Pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>ROOT</web-resource-name>
+            <description>Accessible to anyone</description>
+            <url-pattern>/jsf/public/*</url-pattern>
+            <url-pattern>/jsf/javax.faces.resource/*</url-pattern>
+        </web-resource-collection>
+        <!-- OMIT auth-constraint -->
+  </security-constraint>
+
+  <security-constraint>
+        <display-name>Constraint1</display-name>
+        <web-resource-collection>
+            <web-resource-name>ROOT</web-resource-name>
+            <description>Accessible by authorised J30 Users</description>
+            <url-pattern>/jsf/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>These are the roles who have access</description>
+            <role-name>*</role-name>
+        </auth-constraint>
+  </security-constraint>
+  
+  <login-config>
+      <auth-method>FORM</auth-method>
+      <form-login-config>
+            <form-login-page>/jsf/login.html</form-login-page>
+            <form-error-page>/jsf/error_login.html</form-error-page>
+      </form-login-config>
+  </login-config>
+
+  <!-- We have to list security roles, otherwise server denies all access. * means check login but don't care about roles -->
+  <security-role>
+      <description/>
+      <role-name>*</role-name>
+  </security-role>
+
+  <!-- Session timeout -->
+  <!-- By default a HTTP session will expire after 30 minutes of inactivity. Although you can change this by the following entry in the web.xml, where the timeout can be set in minutes: -->
+  <!-- From a servlet or JSP page, you can modify the timeout for a particular session dynamically by using HttpSession.getMaxInactiveInterval(). -->
+  <session-config>
+      <session-timeout>1200</session-timeout>
+  </session-config>
+
+  <!-- End of Security Section --> 
+
+
+  <!-- Faces Servlet -->
+  <servlet>
+    <servlet-name>J30 Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>J30 Faces Servlet</servlet-name>
+    <url-pattern>/jsf/*</url-pattern>
+  </servlet-mapping>
+
+  <context-param>
+    <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>client</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+    <param-value>resources.application</param-value>
+  </context-param>
+
+  <!-- Context parameters for JSF -->
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+    <param-value>819200</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>javax.faces.VALIDATE_EMPTY_FIELDS</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <!-- Context parameters - PrimeFaces -->
+  <context-param>
+    <param-name>primefaces.THEME</param-name>
+    <param-value>bootstrap</param-value>
+  </context-param>
+
+  <context-param>
+     <param-name>primefaces.FONT_AWESOME</param-name>
+     <param-value>true</param-value>
+  </context-param> 
+
+
+  <!-- Mime Types -->
+  <mime-mapping>  
+     <extension>woff2</extension>  
+     <mime-type>application/x-font-woff2</mime-type>  
+  </mime-mapping>
+  <mime-mapping>
+     <extension>xhtml</extension>
+     <mime-type>application/xhtml+xml</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+     <extension>eot</extension>
+     <mime-type>application/vnd.ms-fontobject</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+     <extension>otf</extension>
+     <mime-type>font/opentype</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+     <extension>ttf</extension>
+     <mime-type>application/x-font-ttf</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+     <extension>woff</extension>
+     <mime-type>application/x-font-woff</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+     <extension>svg</extension>
+     <mime-type>image/svg+xml</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+     <extension>ico</extension>
+     <mime-type>image/x-icon</mime-type>
+  </mime-mapping>
+
+</web-app>

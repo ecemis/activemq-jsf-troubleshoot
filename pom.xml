@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>activemq-jsf-troubleshoot</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>activemq-jsf-troubleshoot</name>
+  <url>http://maven.apache.org</url>
+
+  <repositories>
+    <repository>
+      <id>prime-repo</id>  
+      <name>PrimeFaces Maven Repository</name>
+      <url>http://repository.primefaces.org</url>                                                                                                                                                                                                                                                     
+      <layout>default</layout>
+    </repository>
+  </repositories>
+
+  <properties>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>         
+
+    <tomee.groupid>org.apache.tomee</tomee.groupid>
+    <tomee.maven.groupid>org.apache.tomee.maven</tomee.maven.groupid>
+
+    <tomee.version>7.0.0-M3</tomee.version>
+    <tomcat.version>8.0.32</tomcat.version>
+    <tomee.http.port>8443</tomee.http.port>
+    <tomee.classifier>plume</tomee.classifier>
+    <tomee.javaee.api.version>7.0</tomee.javaee.api.version>
+    <openejb.rest.version>${tomee.version}</openejb.rest.version>                                                                                                                                                                                                                                     
+
+    <maven.compiler.plugin>3.5.1</maven.compiler.plugin>
+    <maven.jar.plugin.version>2.6</maven.jar.plugin.version>
+    <maven.war.plugin.version>2.6</maven.war.plugin.version>
+    <maven.failsafe.plugin.version>2.19.1</maven.failsafe.plugin.version>
+    <maven.javadoc.plugin.version>2.10.3</maven.javadoc.plugin.version>
+
+    <!-- JSF -->
+    <jsf.api.version>2.2</jsf.api.version>
+
+    <!-- PrimeFaces -->
+    <primefaces.version>5.3</primefaces.version>
+    <primefaces.extensions.version>4.0.0</primefaces.extensions.version>
+    <primefaces.themes.version>1.0.10</primefaces.themes.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- PrimeFaces -->
+    <dependency>
+        <groupId>org.primefaces</groupId>
+        <artifactId>primefaces</artifactId>
+        <version>${primefaces.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.primefaces.extensions</groupId>
+        <artifactId>primefaces-extensions</artifactId>
+        <version>${primefaces.extensions.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.primefaces.themes</groupId>  
+        <artifactId>all-themes</artifactId>
+        <version>${primefaces.themes.version}</version>                                                                                                                                                                                                                                               
+    </dependency>
+
+    <dependency>
+        <groupId>${tomee.groupid}</groupId>
+        <artifactId>openejb-rest</artifactId>
+        <version>${openejb.rest.version}</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>${tomee.groupid}</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>${tomee.javaee.api.version}</version>
+        <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>activemq-jsf-troubleshoot</finalName>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven.war.plugin.version}</version>
+
+        <configuration>
+          <nonFilteredFileExtensions>
+            <!-- default value contains jpg,jpeg,gif,bmp,png -->
+            <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+          </nonFilteredFileExtensions>
+          <webResources>
+            <resource>
+              <directory>config/war-resources</directory>
+              <filtering>true</filtering>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+
+      <!-- Maven Plugin to create a jar in addition to a war file -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven.jar.plugin.version}</version>
+        <executions>
+          <execution>
+            <id>make-a-jar</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- TOMEE+ Plugin -->
+      <plugin>
+        <groupId>${tomee.maven.groupid}</groupId>
+        <artifactId>tomee-maven-plugin</artifactId>
+        <version>${tomee.version}</version>
+        <configuration>
+          <tomeeVersion>${tomee.version}</tomeeVersion>
+          <tomeeClassifier>${tomee.classifier}</tomeeClassifier>
+          <tomeeHttpPort>${tomee.http.port}</tomeeHttpPort>
+          <!-- This is to separate logs of different applications, see: http://logback.qos.ch/manual/loggingSeparation.html
+              <args>-Dlogback.ContextSelector=JNDI</args>
+          -->
+          <!-- This is to have TomEE use Logback. One can also add parameters to adjust memory, e.g. -Xms256m -Xmx768m -->
+          <args>-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9090 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=127.0.0.1</args>
+          <context>ROOT</context>
+        </configuration>
+      </plugin>
+
+
+    </plugins>
+  </build>
+
+</project>  
