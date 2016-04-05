@@ -24,15 +24,15 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>         
 
-    <tomee.groupid>org.apache.tomee</tomee.groupid>
-    <tomee.maven.groupid>org.apache.tomee.maven</tomee.maven.groupid>
+    <tomee.groupid>org.apache.openejb</tomee.groupid>
+    <tomee.maven.groupid>org.apache.openejb.maven</tomee.maven.groupid>
 
-    <tomee.version>7.0.0-M3</tomee.version>
-    <tomcat.version>8.0.32</tomcat.version>
+    <tomee.version>1.7.4</tomee.version>
+    <tomcat.version>7.0.55</tomcat.version>
     <tomee.http.port>8443</tomee.http.port>
     <tomee.classifier>plume</tomee.classifier>
-    <tomee.javaee.api.version>7.0</tomee.javaee.api.version>
-    <openejb.rest.version>${tomee.version}</openejb.rest.version>                                                                                                                                                                                                                                     
+    <tomee.javaee.api.version>6.0-6</tomee.javaee.api.version>
+    <openejb.rest.version>4.7.4</openejb.rest.version>
 
     <maven.compiler.plugin>3.5.1</maven.compiler.plugin>
     <maven.jar.plugin.version>2.6</maven.jar.plugin.version>
@@ -41,7 +41,7 @@
     <maven.javadoc.plugin.version>2.10.3</maven.javadoc.plugin.version>
 
     <!-- JSF -->
-    <jsf.api.version>2.2</jsf.api.version>
+    <jsf.api.version>2.1</jsf.api.version>
 
     <!-- PrimeFaces -->
     <primefaces.version>5.3</primefaces.version>
