@@ -11,7 +11,4 @@
     <Container id="MyJmsMdbContainer" ctype="MESSAGE">
         ResourceAdapter = MyJmsResourceAdapter
     </Container>
-
-    <Resource id="FooQueue" type="javax.jms.Queue"/>
-    <Resource id="BarTopic" type="javax.jms.Topic"/>
 </tomee>
